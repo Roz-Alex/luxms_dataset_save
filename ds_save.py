@@ -17,6 +17,7 @@ class Ds:
         }
         self.ds = ''
         self.mode = ''
+        self._path = ''
 
     @staticmethod
     def create_parser() -> argparse.ArgumentParser:
@@ -77,12 +78,22 @@ class Ds:
                         '''
         )
 
+        parser.add_argument(
+            '-P', '--path',
+            nargs='?',
+            required=False,
+            help='''
+                    optional argument that specifies local path where files will be saved
+                    is required if user or host are used
+                    '''
+        )
+
         return parser
 
     def _parse_args(self) -> dict[str, Any]:
 
         """
-        parsing of mode parameter
+        parsing of mode and path parameters
 
         :return: args - dict of arguments
         """
@@ -91,6 +102,8 @@ class Ds:
         # print('a', '\n')
         args = vars(parser.parse_args())
         self.mode = args['mode']
+        if args['mode']:
+            self._path = args['mode']
 
         return args
 
