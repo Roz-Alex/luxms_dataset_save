@@ -1,0 +1,1 @@
+INSERT INTO adm.datasets VALUES(14,'fb5c2e3f-e389-49ba-afad-31d6fa4ff214',NULL,'4.0','ds_14',NULL,0,1,NULL,'test1','',NULL,'{}'::json,2147483647,'{}'::json,'2024-04-25 22:01:44.293027+03',NULL,NULL,NULL,'{}'::json,0,1,'{}'::json,'{}'::json,'[]'::json,NULL,'2024-04-25 22:01:44.293027+03','2024-04-25 22:01:44.293027+03');

@@ -142,7 +142,6 @@ class DsSave(Ds):
         elif _ars['user'] is None and _ars['host'] is None and _ars['port'] is None:
             flag = False
         else:
-            # todo: Maybe add handlers for every None arg
             raise Exception(
                 'You should specify all three args (-H, -p, -u) or none of them. for more information use -h')
 
@@ -226,10 +225,14 @@ class DsSave(Ds):
 
             sftp = ssh.open_sftp()
 
-            # todo: Maybe add argument for paths specifying
-            local_path = self.get_local_path()
+            if not self._path:
+                # self._path = self.get_local_path()
+                self._path = '/Users/alexr/Documents/work/sandbox_dumps' #just for work
 
-            sftp.get('/home/admin/auto1.dmp', f'{local_path}/auto1.dmp')
+            # todo: add function for directory making
+
+            for fil in self.files_list:
+                sftp.get(f'/home/{self.config["user"]}/{fil}', f'{self._path}/{fil}')
 
             sftp.close()
             ssh.close()
@@ -315,7 +318,8 @@ class DsSave(Ds):
                 if err != 'Password: \n':
                     raise Exception('Inner SSH Exception: ' + re.sub('Password: \n', '', err))
 
-                self.files_list.append(f"auto_ist_{i}.dmp")
+                if f"auto_ist_{i}.dmp" not in self.files_list:
+                    self.files_list.append(f"auto_ist_{i}.dmp")
 
                 ssh.close()
 
@@ -356,7 +360,7 @@ class DsSave(Ds):
             with open(f"{local_path}/ins.sql", 'w') as file:
                 file.write(_insert)
 
-            self.files_list.append("ins.sql")
+            # self.files_list.append("ins.sql")
 
         except Exception as error:
             raise error
@@ -416,8 +420,8 @@ class DsSave(Ds):
         self.dump_excels(tbls)
         self.dump_ds()
         self.add_info()
-        print('\n------\n', self.files_list)
-        # self.scp_files()
+        print('\n------\n', self.files_list, '\n------\n')
+        self.scp_files()
 
     # TO BE DONE
     def add_known_host(self):
