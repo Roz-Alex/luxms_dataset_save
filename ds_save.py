@@ -431,7 +431,6 @@ class DsSave(Ds):
         """
         pass
 
-
 class DsRestore(Ds):
     # todo: write class for restoring
     def __init__(self, args):
